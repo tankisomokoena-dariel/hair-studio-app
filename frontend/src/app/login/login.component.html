@@ -1,0 +1,20 @@
+<div class="container">
+  <form (ngSubmit)="Login()">
+      <div class="head">
+          <span>Login</span>
+      </div>
+      <div class="inputs">
+          <input type="text" [(ngModel)]="cellNo" name="cellNo" ngModel required="" placeholder="Cell Number">
+          <input type="password" [(ngModel)]="password" name="password" ngModel required placeholder="Password">
+      </div>
+      <p *ngIf="incorrectPassword" style="color: red;">Incorrect password!</p>
+      <button [class.shake]="incorrectPassword">Submit</button>
+
+  </form>
+  <div class="form-footer">
+      <p>No account? <a routerLink="/register" routerLinkActive="active">Sign up</a></p> 
+  </div>
+</div>
+  
+
+

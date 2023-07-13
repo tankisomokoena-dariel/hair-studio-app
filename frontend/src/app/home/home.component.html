@@ -1,0 +1,24 @@
+<div class="container" id="services">
+    <div class="row mb-4">
+        <span class="divider">
+            <hr/>
+                <p>Services</p>
+            <hr/>
+        </span>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-6 col-lg-4" *ngFor="let item of servicesRepository; let i = index">
+            <div class="d-flex align-items-center justify-content-center h-100">
+                <div class="card-wrapper" >
+                    <div class="card" (click)="open('focusFirst', item.svcId)">
+                        <div class="image-container">
+                            <img [src] = "item.imgURL"/>
+                            <span class="title">{{item.svcName}}</span>
+                            <span class="price">R{{item.svcPrice}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
