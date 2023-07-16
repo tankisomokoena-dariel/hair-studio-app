@@ -49,7 +49,7 @@ export class NgbdModalConfirm {
 	}
 
 	routeToLogin(){
-		this.router.navigate(['/login']);
+		this.router.navigate(['/appointments']);
 		this.modal.close();
 	}
 }
