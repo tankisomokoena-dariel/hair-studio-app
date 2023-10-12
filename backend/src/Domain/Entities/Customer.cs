@@ -11,5 +11,5 @@ public class Customer : BaseAuditableEntity
     public required string Surname { get; set; }
     public string? Email { get; set; }
     public required string PhoneNumber { get; set; }
-    public DateOnly? DateOfBirth { get; set; }
+    public DateTime? DateOfBirth { get; set; }
 }

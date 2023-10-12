@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace backend.Domain.Entities;
 public class AvailabilitySlot : BaseAuditableEntity
 {
-    public DateOnly Date {  get; set; }
-    public TimeOnly StartTime { get; set; }
-    public TimeOnly EndTime { get; set;}
+    public DateTime Date {  get; set; }
+    public DateTime StartTime { get; set; }
+    public DateTime EndTime { get; set;}
 }
