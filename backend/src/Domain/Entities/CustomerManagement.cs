@@ -9,5 +9,5 @@ public class CustomerManagement : BaseAuditableEntity
 {
     public int CustomerId { get; set; }
     public AccountStatus Status { get; set; }
-    public string Comments { get; set; }
+    public string? Comments { get; set; }
 }

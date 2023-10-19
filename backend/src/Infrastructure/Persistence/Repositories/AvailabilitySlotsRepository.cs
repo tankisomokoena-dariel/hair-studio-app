@@ -8,7 +8,7 @@ using backend.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Infrastructure.Persistence.Repositories;
-internal sealed class AvailabilitySlotsRepository : IAvailabilitySlotRepository
+public sealed class AvailabilitySlotsRepository : IAvailabilitySlotRepository
 {
     private readonly ApplicationDbContext _context;
 
@@ -19,27 +19,27 @@ internal sealed class AvailabilitySlotsRepository : IAvailabilitySlotRepository
 
     public DbSet<AvailabilitySlot> AvailableSlots => throw new NotImplementedException();
 
-    public async Task Add(AvailabilitySlot item)
+    public async Task AddAsync(AvailabilitySlot item)
     {
        await _context.AvailabilitySlots.AddAsync(item);
     }
 
-    public Task Delete(int id)
+    public Task DeleteAsync(int id)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<List<AvailabilitySlot>?> GetAll()
+    public async Task<List<AvailabilitySlot>?> GetAllAsync()
     {
         return await _context.AvailabilitySlots.ToListAsync();
     }
 
-    public async Task<AvailabilitySlot?> GetById(int id)
+    public async Task<AvailabilitySlot?> GetByIdAsync(int id)
     {
         return await _context.AvailabilitySlots.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public Task Update(AvailabilitySlot item)
+    public Task UpdateAsync(AvailabilitySlot item)
     {
         throw new NotImplementedException();
     }
