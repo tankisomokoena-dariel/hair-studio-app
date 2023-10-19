@@ -1,8 +1,10 @@
 ﻿using backend.Application.Common.Interfaces;
+using backend.Domain.Interfaces;
 using backend.Infrastructure.Files;
 using backend.Infrastructure.Identity;
 using backend.Infrastructure.Persistence;
 using backend.Infrastructure.Persistence.Interceptors;
+using backend.Infrastructure.Persistence.Repositories;
 using backend.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -32,6 +34,8 @@ public static class ConfigureServices
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
         services.AddScoped<ApplicationDbContextInitialiser>();
+
+        services.AddScoped<IAvailabilitySlotRepository, AvailabilitySlotsRepository>();
 
         services
             .AddDefaultIdentity<ApplicationUser>()
