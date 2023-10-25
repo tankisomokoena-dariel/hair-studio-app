@@ -5,20 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using backend.Application.AvailabilitySlots.Dto;
-using backend.Application.AvailabilitySlots.Queries;
 using backend.Domain.Interfaces;
 using MediatR;
 
-namespace backend.Application.AvailabilitySlots.EventHandler;
+namespace backend.Application.AvailabilitySlots.Queries;
 public class GetAvailabilitySlotsQueryHandler : IRequestHandler<GetAvailabilitySlotsQuery, List<AvailabilitySlotDto>>
 {
     private readonly IMapper _mapper;
     private readonly IAvailabilitySlotRepository _availabilitySlotRepository;
-    
+
     public GetAvailabilitySlotsQueryHandler(IMapper mapper, IAvailabilitySlotRepository availabilitySlotRepository)
     {
-        this._mapper = mapper;
-        this._availabilitySlotRepository = availabilitySlotRepository;
+        _mapper = mapper;
+        _availabilitySlotRepository = availabilitySlotRepository;
     }
     public async Task<List<AvailabilitySlotDto>> Handle(GetAvailabilitySlotsQuery request, CancellationToken cancellationToken)
     {
