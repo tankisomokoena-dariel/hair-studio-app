@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using backend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Domain.Interfaces;
-internal interface IPaymentRepository: IRepository<Payment>
+namespace backend.Application.Common.Interfaces.Repositories;
+internal interface IPaymentRepository : IRepository<Payment>
 {
 }

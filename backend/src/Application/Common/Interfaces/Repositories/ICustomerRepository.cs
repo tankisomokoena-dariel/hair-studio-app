@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using backend.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
-namespace backend.Domain.Interfaces;
-public interface IServiceRepository : IRepository<Service>
+namespace backend.Application.Common.Interfaces.Repositories;
+public interface ICustomerRepository : IRepository<Customer>
 {
+
 }

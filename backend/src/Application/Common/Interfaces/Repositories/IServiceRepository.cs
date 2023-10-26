@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using backend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Domain.Interfaces;
-public interface IReviewRepository : IRepository<Review>
+namespace backend.Application.Common.Interfaces.Repositories;
+public interface IServiceRepository : IRepository<Service>
 {
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using backend.Application.AvailabilitySlots.Dto;
-using backend.Domain.Interfaces;
+using backend.Application.Common.Interfaces.Repositories;
 using MediatR;
 
 namespace backend.Application.AvailabilitySlots.Queries;

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using backend.Application.Common.Interfaces.Repositories;
 using backend.Domain.Entities;
-using backend.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Infrastructure.Persistence.Repositories;

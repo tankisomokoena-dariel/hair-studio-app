@@ -1,5 +1,5 @@
 ﻿using backend.Application.Common.Interfaces;
-using backend.Domain.Interfaces;
+using backend.Application.Common.Interfaces.Repositories;
 using backend.Infrastructure.Files;
 using backend.Infrastructure.Identity;
 using backend.Infrastructure.Persistence;

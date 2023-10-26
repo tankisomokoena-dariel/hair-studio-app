@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace backend.Domain.Interfaces;
+namespace backend.Application.Common.Interfaces.Repositories;
 public interface IRepository<T>
 {
     public Task<List<T>?> GetAllAsync();

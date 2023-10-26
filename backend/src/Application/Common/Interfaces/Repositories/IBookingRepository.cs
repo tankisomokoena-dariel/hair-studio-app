@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using backend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Domain.Interfaces;
-public interface IAvailabilitySlotRepository : IRepository<AvailabilitySlot>
+namespace backend.Application.Common.Interfaces.Repositories;
+internal interface IBookingRepository : IRepository<Booking>
 {
 }
