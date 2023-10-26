@@ -1,6 +1,4 @@
-using backend.Domain.Interfaces;
 using backend.Infrastructure.Persistence;
-using backend.Infrastructure.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
