@@ -9,5 +9,4 @@ using Microsoft.EntityFrameworkCore;
 namespace backend.Domain.Interfaces;
 public interface IReviewRepository : IRepository<Review>
 {
-    DbSet<Review> Reviews { get; }
 }

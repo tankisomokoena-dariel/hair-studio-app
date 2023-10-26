@@ -9,5 +9,4 @@ using Microsoft.EntityFrameworkCore;
 namespace backend.Domain.Interfaces;
 internal interface IPaymentRepository: IRepository<Payment>
 {
-    DbSet<Payment> Payments { get; }
 }

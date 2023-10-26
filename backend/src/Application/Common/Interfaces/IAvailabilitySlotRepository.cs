@@ -9,5 +9,4 @@ using Microsoft.EntityFrameworkCore;
 namespace backend.Domain.Interfaces;
 public interface IAvailabilitySlotRepository : IRepository<AvailabilitySlot>
 {
-    DbSet<AvailabilitySlot> AvailableSlots { get; }
 }

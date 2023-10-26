@@ -9,5 +9,4 @@ using Microsoft.EntityFrameworkCore;
 namespace backend.Domain.Interfaces;
 internal interface IBookingRepository : IRepository<Booking>
 {
-    DbSet<Booking> Bookings { get; }
 }

@@ -9,5 +9,4 @@ using Microsoft.EntityFrameworkCore;
 namespace backend.Domain.Interfaces;
 public interface IServiceRepository : IRepository<Service>
 {
-    DbSet<Service> Services { get; }
 }
