@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace backend.Domain.Entities;
 public class Booking : BaseAuditableEntity
 {
-    public int UsertId { get; set; }
+    public int UserId { get; set; }
     public int ServiceId { get; set; }
     public DateTime Date { get; set; }
-    public DateTime TimeIn { get; set; }
-    public DateTime TimeOut { get; set; }
+    public DateTime StartTime { get; set; }
+    public DateTime EndTime { get; set; }
     public string? Comments { get; set; }
 }
