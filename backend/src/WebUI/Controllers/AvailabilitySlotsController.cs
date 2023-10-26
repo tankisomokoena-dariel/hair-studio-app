@@ -1,5 +1,8 @@
-﻿using backend.Application.AvailabilitySlots.Dto;
+﻿using backend.Application.AvailabilitySlots.Commands;
+using backend.Application.AvailabilitySlots.Dto;
 using backend.Application.AvailabilitySlots.Queries;
+using backend.Domain.Entities;
+using backend.WebUI.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,18 +11,20 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebUI.Controllers;
 [Route("api/[controller]")]
 [ApiController]
-public class AvailabilitySlotsController : ControllerBase
+public class AvailabilitySlotsController : ApiControllerBase
 {
-    private readonly IMediator _mediator;
-    public AvailabilitySlotsController(IMediator mediator)
-    {
-        this._mediator = mediator;
-    }
     // GET: api/<AvailabilitySlotsController>
     [HttpGet]
     public async Task<List<AvailabilitySlotDto>> Get()
     {
-        var availabilitySlots = await _mediator.Send(new GetAvailabilitySlotsQuery());
+        var availabilitySlots = await Mediator.Send(new GetAvailabilitySlotsQuery());
         return availabilitySlots;
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Add(AvailabilitySlot availabilitySlot)
+    {
+        var result = await Mediator.Send(new CreateAvailabilitySlotCommand(availabilitySlot));
+        return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }
 }

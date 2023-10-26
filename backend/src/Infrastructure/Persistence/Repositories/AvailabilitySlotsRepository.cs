@@ -21,7 +21,8 @@ public sealed class AvailabilitySlotsRepository : IAvailabilitySlotRepository
 
     public async Task AddAsync(AvailabilitySlot item)
     {
-       await _context.AvailabilitySlots.AddAsync(item);
+        await _context.AvailabilitySlots.AddAsync(item);
+        await _context.SaveChangesAsync();
     }
 
     public Task DeleteAsync(int id)
