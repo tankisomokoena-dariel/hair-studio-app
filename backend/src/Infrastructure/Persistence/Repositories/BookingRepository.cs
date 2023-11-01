@@ -8,18 +8,17 @@ using backend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Infrastructure.Persistence.Repositories;
-public sealed class AvailabilitySlotsRepository : IAvailabilitySlotRepository
+public class BookingRepository : IBookingRepository
 {
     private readonly ApplicationDbContext _context;
 
-    public AvailabilitySlotsRepository(ApplicationDbContext context)
+    public BookingRepository(ApplicationDbContext context)
     {
         _context = context;
     }
-
-    public async Task AddAsync(AvailabilitySlot item)
+    public async Task AddAsync(Booking item)
     {
-        await _context.AvailabilitySlots.AddAsync(item);
+        await _context.Bookings.AddAsync(item);
         await _context.SaveChangesAsync();
     }
 
@@ -28,17 +27,18 @@ public sealed class AvailabilitySlotsRepository : IAvailabilitySlotRepository
         throw new NotImplementedException();
     }
 
-    public async Task<List<AvailabilitySlot>?> GetAllAsync()
+    public async Task<List<Booking>?> GetAllAsync()
     {
-        return await _context.AvailabilitySlots.ToListAsync();
+        var result = await _context.Bookings.ToListAsync();
+        return result;
     }
 
-    public async Task<AvailabilitySlot?> GetByIdAsync(int id)
+    public async Task<Booking?> GetByIdAsync(int id)
     {
-        return await _context.AvailabilitySlots.FirstOrDefaultAsync(x => x.Id == id);
+        return await _context.Bookings.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public Task UpdateAsync(AvailabilitySlot item)
+    public Task UpdateAsync(Booking item)
     {
         throw new NotImplementedException();
     }

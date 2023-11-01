@@ -32,6 +32,10 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
     public DbSet<TodoItem> TodoItems => Set<TodoItem>();
 
     public DbSet<AvailabilitySlot> AvailabilitySlots { get; set; }
+    public DbSet<Booking> Bookings { get; set; }
+    public DbSet<Customer> Customers { get; set; }
+    public DbSet<Payment> Payments { get; set; }
+    public DbSet<Review> Reviews { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

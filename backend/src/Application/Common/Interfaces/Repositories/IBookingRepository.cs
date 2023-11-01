@@ -7,6 +7,6 @@ using backend.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Application.Common.Interfaces.Repositories;
-internal interface IBookingRepository : IRepository<Booking>
+public interface IBookingRepository : IRepository<Booking>
 {
 }
