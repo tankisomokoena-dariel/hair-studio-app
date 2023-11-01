@@ -36,6 +36,7 @@ public static class ConfigureServices
         services.AddScoped<ApplicationDbContextInitialiser>();
 
         services.AddScoped<IAvailabilitySlotRepository, AvailabilitySlotsRepository>();
+        services.AddScoped<IBookingRepository, BookingRepository>();
 
         services
             .AddDefaultIdentity<ApplicationUser>()
