@@ -8,10 +8,10 @@ using backend.Application.Common.Models;
 using backend.Domain.Entities;
 using MediatR;
 
-namespace backend.Application.AvailabilitySlots.Commands;
+namespace backend.Application.AvailabilitySlots.Commands.CreateAvailabilitySlot;
 internal class CreateAvailabilitySlotCommandHandler : IRequestHandler<CreateAvailabilitySlotCommand, Result>
 {
-    IAvailabilitySlotRepository _availabilitySlotRepository;
+    private readonly IAvailabilitySlotRepository _availabilitySlotRepository;
     public CreateAvailabilitySlotCommandHandler(IAvailabilitySlotRepository availabilitySlotRepository)
     {
         _availabilitySlotRepository = availabilitySlotRepository;
@@ -34,7 +34,7 @@ internal class CreateAvailabilitySlotCommandHandler : IRequestHandler<CreateAvai
         }
         catch (Exception ex)
         {
-            return Result.Failure(new List<string> { ex.Message, ex.StackTrace != null ? ex.StackTrace : ""});
+            return Result.Failure(new List<string> { ex.Message, ex.StackTrace != null ? ex.StackTrace : "" });
         }
     }
 }

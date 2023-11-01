@@ -7,5 +7,5 @@ using backend.Application.Common.Models;
 using backend.Domain.Entities;
 using MediatR;
 
-namespace backend.Application.AvailabilitySlots.Commands;
+namespace backend.Application.AvailabilitySlots.Commands.CreateAvailabilitySlot;
 public record CreateAvailabilitySlotCommand(AvailabilitySlot AvailabilitySlot) : IRequest<Result>;
