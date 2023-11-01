@@ -1,4 +1,4 @@
-﻿using backend.Application.AvailabilitySlots.Commands;
+﻿using backend.Application.AvailabilitySlots.Commands.CreateAvailabilitySlot;
 using backend.Application.AvailabilitySlots.Dto;
 using backend.Application.AvailabilitySlots.Queries;
 using backend.Domain.Entities;
