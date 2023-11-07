@@ -8,8 +8,11 @@ using backend.Application.Common.Mappings;
 using backend.Domain.Entities;
 
 namespace backend.Application.AvailabilitySlots.Dto;
-public record AvailabilitySlotDTO(int Id, 
-                                DateTime Date, 
-                                DateTime StartTime, 
-                                DateTime EndTime) : IMapFrom<AvailabilitySlot>;
+public record AvailabilitySlotDTO : IMapFrom<AvailabilitySlot>
+ {
+    public int Id { get; init; }
+    public DateTime Date {get; init;} 
+    public DateTime StartTime {get; init;}
+    public DateTime EndTime {get; init;}
+}
 
