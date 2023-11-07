@@ -15,7 +15,7 @@ public class AvailabilitySlotsController : ApiControllerBase
 {
     // GET: api/<AvailabilitySlotsController>
     [HttpGet]
-    public async Task<List<AvailabilitySlotDto>> Get()
+    public async Task<List<AvailabilitySlotDTO>> Get()
     {
         var availabilitySlots = await Mediator.Send(new GetAvailabilitySlotsQuery());
         return availabilitySlots;

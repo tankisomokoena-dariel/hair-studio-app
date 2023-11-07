@@ -16,7 +16,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IAvailabilitySlotsClient {
-    get(): Observable<AvailabilitySlotDto[]>;
+    get(): Observable<AvailabilitySlotDTO[]>;
     add(availabilitySlot: AvailabilitySlot): Observable<FileResponse>;
 }
 
@@ -33,7 +33,7 @@ export class AvailabilitySlotsClient implements IAvailabilitySlotsClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    get(): Observable<AvailabilitySlotDto[]> {
+    get(): Observable<AvailabilitySlotDTO[]> {
         let url_ = this.baseUrl + "/api/AvailabilitySlots";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -52,14 +52,14 @@ export class AvailabilitySlotsClient implements IAvailabilitySlotsClient {
                 try {
                     return this.processGet(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<AvailabilitySlotDto[]>;
+                    return _observableThrow(e) as any as Observable<AvailabilitySlotDTO[]>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<AvailabilitySlotDto[]>;
+                return _observableThrow(response_) as any as Observable<AvailabilitySlotDTO[]>;
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<AvailabilitySlotDto[]> {
+    protected processGet(response: HttpResponseBase): Observable<AvailabilitySlotDTO[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -73,7 +73,7 @@ export class AvailabilitySlotsClient implements IAvailabilitySlotsClient {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(AvailabilitySlotDto.fromJS(item));
+                    result200!.push(AvailabilitySlotDTO.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -940,13 +940,13 @@ export class WeatherForecastClient implements IWeatherForecastClient {
     }
 }
 
-export class AvailabilitySlotDto implements IAvailabilitySlotDto {
+export class AvailabilitySlotDTO implements IAvailabilitySlotDTO {
     id?: number;
     date?: Date;
     startTime?: Date;
     endTime?: Date;
 
-    constructor(data?: IAvailabilitySlotDto) {
+    constructor(data?: IAvailabilitySlotDTO) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -964,9 +964,9 @@ export class AvailabilitySlotDto implements IAvailabilitySlotDto {
         }
     }
 
-    static fromJS(data: any): AvailabilitySlotDto {
+    static fromJS(data: any): AvailabilitySlotDTO {
         data = typeof data === 'object' ? data : {};
-        let result = new AvailabilitySlotDto();
+        let result = new AvailabilitySlotDTO();
         result.init(data);
         return result;
     }
@@ -981,7 +981,7 @@ export class AvailabilitySlotDto implements IAvailabilitySlotDto {
     }
 }
 
-export interface IAvailabilitySlotDto {
+export interface IAvailabilitySlotDTO {
     id?: number;
     date?: Date;
     startTime?: Date;

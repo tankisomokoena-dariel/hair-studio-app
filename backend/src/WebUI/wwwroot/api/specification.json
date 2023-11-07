@@ -20,7 +20,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AvailabilitySlotDto"
+                    "$ref": "#/components/schemas/AvailabilitySlotDTO"
                   }
                 }
               }
@@ -588,7 +588,7 @@
   },
   "components": {
     "schemas": {
-      "AvailabilitySlotDto": {
+      "AvailabilitySlotDTO": {
         "type": "object",
         "additionalProperties": false,
         "properties": {

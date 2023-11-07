@@ -7,13 +7,11 @@ using backend.Application.Common.Mappings;
 using backend.Domain.Entities;
 
 namespace backend.Application.Bookings.DTOs;
-public class BookingDTO : IMapFrom<Booking>
-{
-    public int Id { get; set; }
-    public int UserId { get; set; }
-    public int ServiceId { get; set; }
-    public DateTime Date { get; set; }
-    public DateTime StartTime { get; set; }
-    public DateTime EndTime { get; set; }
-    public string? Comments { get; set; }
-}
+public record BookingDTO( int Id, 
+                        int UserId, 
+                        int ServiceId, 
+                        DateTime Date, 
+                        DateTime StartTime, 
+                        DateTime EndTime, 
+                        string? Comments) : IMapFrom<Booking>;
+
