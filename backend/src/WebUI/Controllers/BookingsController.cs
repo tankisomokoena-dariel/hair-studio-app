@@ -1,6 +1,8 @@
 ﻿using backend.Application.Bookings.Commands.CreateBooking;
 using backend.Application.Bookings.DTOs;
 using backend.Application.Bookings.Queries;
+using backend.Application.Bookings.Service;
+using backend.Application.Common.Models;
 using backend.Domain.Entities;
 using backend.WebUI.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -12,19 +14,45 @@ namespace WebUI.Controllers;
 [ApiController]
 public class BookingsController : ApiControllerBase
 {
+    private readonly IBookingService _bookingService;
+    public BookingsController(IBookingService bookingService)
+    {
+        _bookingService = bookingService;
+    }
     // GET: api/<BookingsController>
     [HttpGet]
-    public async Task<IEnumerable<BookingDTO>> Get()
+    public async Task<IEnumerable<BookingDTO>?> GetAllBookings()
     {
-        var bookings = await Mediator.Send(new GetBookingsQuery());
-        return bookings;
+        return await _bookingService.GetAllBookings();
+    }
+
+    [HttpGet]
+    [Route("id")]
+    public async Task<BookingDTO?> GetBooking(int Id)
+    {
+        return await _bookingService.GetBooking(Id);
     }
 
     // POST api/<BookingsController>
     [HttpPost]
-    public async Task<IActionResult> Add([FromBody] Booking booking)
+    public async Task<IActionResult> AddBooking([FromBody] BookingDTO booking)
     {
-        var result = await Mediator.Send(new CreateBookingCommand(booking));
+        var result = await _bookingService.AddBooking(booking);
+        return result.Succeeded ? Ok() : BadRequest(result.Errors);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateBooking([FromBody] BookingDTO booking)
+    {
+        var result = await _bookingService.UpdateBooking(booking);
+        return result.Succeeded ? Ok() : BadRequest(result.Errors);
+    }
+
+    [HttpDelete]
+    [Route("id")]
+    public async Task<IActionResult> DeleteBooking(int Id)
+    {
+        var result = await _bookingService.DeleteBooking(Id);
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }
 

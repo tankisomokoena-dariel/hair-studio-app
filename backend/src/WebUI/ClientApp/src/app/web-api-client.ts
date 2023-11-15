@@ -18,6 +18,7 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 export interface IAvailabilitySlotsClient {
     get(): Observable<AvailabilitySlotDTO[]>;
     add(availabilitySlot: AvailabilitySlot): Observable<FileResponse>;
+    updateAvailabilitySlot(availabilitySlot: AvailabilitySlotDTO): Observable<FileResponse>;
 }
 
 @Injectable({
@@ -143,11 +144,70 @@ export class AvailabilitySlotsClient implements IAvailabilitySlotsClient {
         }
         return _observableOf(null as any);
     }
+
+    updateAvailabilitySlot(availabilitySlot: AvailabilitySlotDTO): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/AvailabilitySlots";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(availabilitySlot);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateAvailabilitySlot(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateAvailabilitySlot(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileResponse>;
+        }));
+    }
+
+    protected processUpdateAvailabilitySlot(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
+            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+            if (fileName) {
+                fileName = decodeURIComponent(fileName);
+            } else {
+                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            }
+            return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 export interface IBookingsClient {
-    get(): Observable<BookingDTO[]>;
-    add(booking: Booking): Observable<FileResponse>;
+    getAllBookings(): Observable<(BookingDTO | undefined)[]>;
+    addBooking(booking: BookingDTO): Observable<FileResponse>;
+    updateBooking(booking: BookingDTO): Observable<FileResponse>;
+    getBooking(id: number | undefined): Observable<BookingDTO>;
+    deleteBooking(id: number | undefined): Observable<FileResponse>;
 }
 
 @Injectable({
@@ -163,7 +223,7 @@ export class BookingsClient implements IBookingsClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    get(): Observable<BookingDTO[]> {
+    getAllBookings(): Observable<(BookingDTO | undefined)[]> {
         let url_ = this.baseUrl + "/api/Bookings";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -176,20 +236,20 @@ export class BookingsClient implements IBookingsClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGet(response_);
+            return this.processGetAllBookings(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGet(response_ as any);
+                    return this.processGetAllBookings(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<BookingDTO[]>;
+                    return _observableThrow(e) as any as Observable<(BookingDTO | undefined)[]>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<BookingDTO[]>;
+                return _observableThrow(response_) as any as Observable<(BookingDTO | undefined)[]>;
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<BookingDTO[]> {
+    protected processGetAllBookings(response: HttpResponseBase): Observable<(BookingDTO | undefined)[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -218,7 +278,7 @@ export class BookingsClient implements IBookingsClient {
         return _observableOf(null as any);
     }
 
-    add(booking: Booking): Observable<FileResponse> {
+    addBooking(booking: BookingDTO): Observable<FileResponse> {
         let url_ = this.baseUrl + "/api/Bookings";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -235,11 +295,11 @@ export class BookingsClient implements IBookingsClient {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processAdd(response_);
+            return this.processAddBooking(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processAdd(response_ as any);
+                    return this.processAddBooking(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<FileResponse>;
                 }
@@ -248,7 +308,171 @@ export class BookingsClient implements IBookingsClient {
         }));
     }
 
-    protected processAdd(response: HttpResponseBase): Observable<FileResponse> {
+    protected processAddBooking(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
+            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+            if (fileName) {
+                fileName = decodeURIComponent(fileName);
+            } else {
+                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            }
+            return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    updateBooking(booking: BookingDTO): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/Bookings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(booking);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateBooking(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateBooking(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileResponse>;
+        }));
+    }
+
+    protected processUpdateBooking(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
+            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+            if (fileName) {
+                fileName = decodeURIComponent(fileName);
+            } else {
+                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            }
+            return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    getBooking(id: number | undefined): Observable<BookingDTO> {
+        let url_ = this.baseUrl + "/api/Bookings/id?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBooking(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBooking(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<BookingDTO>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<BookingDTO>;
+        }));
+    }
+
+    protected processGetBooking(response: HttpResponseBase): Observable<BookingDTO> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BookingDTO.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    deleteBooking(id: number | undefined): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/Bookings/id?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteBooking(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteBooking(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileResponse>;
+        }));
+    }
+
+    protected processDeleteBooking(response: HttpResponseBase): Observable<FileResponse> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1153,6 +1377,7 @@ export class BookingDTO implements IBookingDTO {
     date?: Date;
     startTime?: Date;
     endTime?: Date;
+    status?: BookingStatus;
     comments?: string | undefined;
 
     constructor(data?: IBookingDTO) {
@@ -1172,6 +1397,7 @@ export class BookingDTO implements IBookingDTO {
             this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
             this.startTime = _data["startTime"] ? new Date(_data["startTime"].toString()) : <any>undefined;
             this.endTime = _data["endTime"] ? new Date(_data["endTime"].toString()) : <any>undefined;
+            this.status = _data["status"];
             this.comments = _data["comments"];
         }
     }
@@ -1191,6 +1417,7 @@ export class BookingDTO implements IBookingDTO {
         data["date"] = this.date ? this.date.toISOString() : <any>undefined;
         data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>undefined;
         data["endTime"] = this.endTime ? this.endTime.toISOString() : <any>undefined;
+        data["status"] = this.status;
         data["comments"] = this.comments;
         return data;
     }
@@ -1203,60 +1430,14 @@ export interface IBookingDTO {
     date?: Date;
     startTime?: Date;
     endTime?: Date;
+    status?: BookingStatus;
     comments?: string | undefined;
 }
 
-export class Booking extends BaseAuditableEntity implements IBooking {
-    userId?: number;
-    serviceId?: number;
-    date?: Date;
-    startTime?: Date;
-    endTime?: Date;
-    comments?: string | undefined;
-
-    constructor(data?: IBooking) {
-        super(data);
-    }
-
-    override init(_data?: any) {
-        super.init(_data);
-        if (_data) {
-            this.userId = _data["userId"];
-            this.serviceId = _data["serviceId"];
-            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
-            this.startTime = _data["startTime"] ? new Date(_data["startTime"].toString()) : <any>undefined;
-            this.endTime = _data["endTime"] ? new Date(_data["endTime"].toString()) : <any>undefined;
-            this.comments = _data["comments"];
-        }
-    }
-
-    static override fromJS(data: any): Booking {
-        data = typeof data === 'object' ? data : {};
-        let result = new Booking();
-        result.init(data);
-        return result;
-    }
-
-    override toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userId"] = this.userId;
-        data["serviceId"] = this.serviceId;
-        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
-        data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>undefined;
-        data["endTime"] = this.endTime ? this.endTime.toISOString() : <any>undefined;
-        data["comments"] = this.comments;
-        super.toJSON(data);
-        return data;
-    }
-}
-
-export interface IBooking extends IBaseAuditableEntity {
-    userId?: number;
-    serviceId?: number;
-    date?: Date;
-    startTime?: Date;
-    endTime?: Date;
-    comments?: string | undefined;
+export enum BookingStatus {
+    Pending = 0,
+    Approved = 1,
+    Complete = 2,
 }
 
 export class PaginatedListOfTodoItemBriefDto implements IPaginatedListOfTodoItemBriefDto {

@@ -1,4 +1,5 @@
 ﻿using backend.Application.AvailabilitySlots.Commands.CreateAvailabilitySlot;
+using backend.Application.AvailabilitySlots.Commands.UpdateAvailabilitySlot;
 using backend.Application.AvailabilitySlots.Dto;
 using backend.Application.AvailabilitySlots.Queries;
 using backend.Domain.Entities;
@@ -25,6 +26,13 @@ public class AvailabilitySlotsController : ApiControllerBase
     public async Task<IActionResult> Add(AvailabilitySlot availabilitySlot)
     {
         var result = await Mediator.Send(new CreateAvailabilitySlotCommand(availabilitySlot));
+        return result.Succeeded ? Ok() : BadRequest(result.Errors);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateAvailabilitySlot(AvailabilitySlotDTO availabilitySlot)
+    {
+        var result = await Mediator.Send(new UpdateAvailabilityCommand(availabilitySlot));
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }
 }
