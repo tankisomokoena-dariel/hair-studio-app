@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.RateLimiting;
 using System.Threading.Tasks;
 using backend.Application.Common.Interfaces.Repositories;
 using backend.Domain.Entities;
@@ -38,8 +39,16 @@ public sealed class AvailabilitySlotsRepository : IAvailabilitySlotRepository
         return await _context.AvailabilitySlots.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public Task UpdateAsync(AvailabilitySlot item)
+    public async Task UpdateAsync(AvailabilitySlot item)
     {
-        throw new NotImplementedException();
+        var slot = await _context.AvailabilitySlots.FindAsync(new object[] { item.Id });
+
+        if (slot == null)
+        {
+            return;
+        }
+
+        slot = item;
+        await _context.SaveChangesAsync();
     }
 }
