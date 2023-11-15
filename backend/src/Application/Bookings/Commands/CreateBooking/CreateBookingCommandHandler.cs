@@ -21,23 +21,23 @@ public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand,
     {
         try
         {
-            var booking = new Booking
+            var booking = new Booking()
             {
-                ServiceId = request.Booking.ServiceId,
                 UserId = request.Booking.UserId,
+                ServiceId = request.Booking.ServiceId,
                 Date = request.Booking.Date,
                 StartTime = request.Booking.StartTime,
                 EndTime = request.Booking.EndTime,
-                Created = request.Booking.Created,
-                CreatedBy = request.Booking.CreatedBy,
-                LastModified = request.Booking.LastModified,
-                LastModifiedBy = request.Booking.LastModifiedBy
+                Status = request.Booking.Status,
+                Comments = request.Booking.Comments,
+                Created = DateTime.Now,
+                CreatedBy = "TBC",
+                LastModified = DateTime.Now,
+                LastModifiedBy = "TBC"
             };
 
             booking.AddDomainEvent(new BookingCreatedEvent(booking));
-
             await _bookingRepository.AddAsync(booking);
-
             return Result.Success();
         }
         catch (Exception ex)

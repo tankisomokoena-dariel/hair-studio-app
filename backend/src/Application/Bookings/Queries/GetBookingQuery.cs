@@ -7,4 +7,4 @@ using backend.Application.Bookings.DTOs;
 using MediatR;
 
 namespace backend.Application.Bookings.Queries;
-public record GetBookingsQuery : IRequest<List<BookingDTO>>;
+public record GetBookingQuery(int Id) : IRequest<BookingDTO?>;

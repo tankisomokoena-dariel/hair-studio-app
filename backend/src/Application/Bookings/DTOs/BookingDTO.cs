@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using backend.Application.Common.Mappings;
 using backend.Domain.Entities;
+using backend.Domain.Enums;
 
 namespace backend.Application.Bookings.DTOs;
 public record BookingDTO : IMapFrom<Booking>
@@ -15,6 +16,7 @@ public record BookingDTO : IMapFrom<Booking>
     public DateTime Date { get; init; }
     public DateTime StartTime { get; init; }
     public DateTime EndTime { get; init; }
+    public BookingStatus Status { get; init; }
     public string? Comments { get; init; }
 }
 

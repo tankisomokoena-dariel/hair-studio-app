@@ -8,6 +8,5 @@ using backend.Application.Common.Models;
 using backend.Domain.Entities;
 using MediatR;
 
-namespace backend.Application.Bookings.Commands.CreateBooking;
-public record CreateBookingCommand(BookingDTO Booking) : IRequest<Result>;
-
+namespace backend.Application.Bookings.Commands.UpdateBooking;
+public record UpdateBookingCommand(BookingDTO Booking) : IRequest<Result>;
