@@ -11,7 +11,7 @@ Invoke-WebRequest https://localhost:44447/api/specification.json -OutFile ./swag
 
 Remove-Item ./SwaggerGeneratedFiles/* -Recurse -Force
 
-java -jar swagger-codegen-cli-3.0.27.jar generate -i swagger.json -l typescript-angular -o SwaggerGeneratedFiles
+java -jar swagger-codegen-cli-3.0.50.jar generate -i swagger.json -l typescript-angular -o SwaggerGeneratedFiles
 
 Remove-Item ./frontend/src/app/api/* -Recurse -Force
 Copy-Item -Path ./SwaggerGeneratedFiles/* -Destination ./frontend/src/app/api -Recurse -Verbose
