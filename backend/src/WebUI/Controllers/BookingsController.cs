@@ -23,28 +23,28 @@ public class BookingsController : ApiControllerBase
     [HttpGet]
     public async Task<IEnumerable<BookingDTO>?> GetAllBookings()
     {
-        return await _bookingService.GetAllBookings();
+        return await _bookingService.GetAllBookingsAsync();
     }
 
     [HttpGet]
     [Route("id")]
     public async Task<BookingDTO?> GetBooking(int Id)
     {
-        return await _bookingService.GetBooking(Id);
+        return await _bookingService.GetBookingAsync(Id);
     }
 
     // POST api/<BookingsController>
     [HttpPost]
     public async Task<IActionResult> AddBooking([FromBody] BookingDTO booking)
     {
-        var result = await _bookingService.AddBooking(booking);
+        var result = await _bookingService.AddBookingAsync(booking);
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }
 
     [HttpPut]
     public async Task<IActionResult> UpdateBooking([FromBody] BookingDTO booking)
     {
-        var result = await _bookingService.UpdateBooking(booking);
+        var result = await _bookingService.UpdateBookingAsync(booking);
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }
 
@@ -52,7 +52,7 @@ public class BookingsController : ApiControllerBase
     [Route("id")]
     public async Task<IActionResult> DeleteBooking(int Id)
     {
-        var result = await _bookingService.DeleteBooking(Id);
+        var result = await _bookingService.DeleteBookingAsync(Id);
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }
 

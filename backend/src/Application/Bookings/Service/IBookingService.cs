@@ -10,9 +10,9 @@ using backend.Domain.Entities;
 namespace backend.Application.Bookings.Service;
 public interface IBookingService
 {
-    public Task<IEnumerable<BookingDTO>?> GetAllBookings();
-    public Task<BookingDTO?> GetBooking(int id);
-    public Task<Result> AddBooking(BookingDTO booking);
-    public Task<Result> UpdateBooking(BookingDTO booking);
-    public Task<Result> DeleteBooking(int id);
+    public Task<IEnumerable<BookingDTO>?> GetAllBookingsAsync();
+    public Task<BookingDTO?> GetBookingAsync(int id);
+    public Task<Result> AddBookingAsync(BookingDTO booking);
+    public Task<Result> UpdateBookingAsync(BookingDTO booking);
+    public Task<Result> DeleteBookingAsync(int id);
 }

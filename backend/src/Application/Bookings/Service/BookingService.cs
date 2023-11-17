@@ -23,27 +23,27 @@ public sealed class BookingService : IBookingService
     {
         _mediator = mediator;
     }
-    public async Task<Result> AddBooking(BookingDTO booking)
+    public async Task<Result> AddBookingAsync(BookingDTO booking)
     {
         return await _mediator.Send(new CreateBookingCommand(booking));     
     }
 
-    public async Task<Result> DeleteBooking(int id)
+    public async Task<Result> DeleteBookingAsync(int id)
     {
         return await _mediator.Send(new DeleteBookingCommand(id));
     }
 
-    public async Task<IEnumerable<BookingDTO>?> GetAllBookings()
+    public async Task<IEnumerable<BookingDTO>?> GetAllBookingsAsync()
     {
         return await _mediator.Send(new GetAllBookingsQuery());
     }
 
-    public async Task<BookingDTO?> GetBooking(int id)
+    public async Task<BookingDTO?> GetBookingAsync(int id)
     {
         return await _mediator.Send(new GetBookingQuery(id));
     }
 
-    public async Task<Result> UpdateBooking(BookingDTO booking)
+    public async Task<Result> UpdateBookingAsync(BookingDTO booking)
     {
         return await _mediator.Send(new UpdateBookingCommand(booking));
     }
