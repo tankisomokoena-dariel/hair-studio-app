@@ -9,4 +9,4 @@ using MediatR;
 
 namespace backend.Application.AvailabilitySlots.Queries;
 
-public record GetAvailabilitySlotsQuery : IRequest<List<AvailabilitySlotDTO>>;
+public record GetAvailabilitySlotsQuery : IRequest<IEnumerable<AvailabilitySlotDTO>>;

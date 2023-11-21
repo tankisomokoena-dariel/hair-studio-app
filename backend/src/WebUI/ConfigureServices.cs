@@ -1,4 +1,6 @@
-﻿using backend.Application.Bookings.Service;
+﻿using backend.Application.AvailabilitySlots.Interfaces;
+using backend.Application.AvailabilitySlots.Services;
+using backend.Application.Bookings.Service;
 using backend.Application.Common.Interfaces;
 using backend.Infrastructure.Persistence;
 using backend.WebUI.Services;
@@ -18,6 +20,8 @@ public static class ConfigureServices
         services.AddScoped<ICurrentUserService, CurrentUserService>();
 
         services.AddScoped<IBookingService, BookingService>();
+
+        services.AddScoped<IAvailabilitySlotService, AvailabilitySlotService>();
 
         services.AddHttpContextAccessor();
 

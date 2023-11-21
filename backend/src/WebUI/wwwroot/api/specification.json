@@ -32,7 +32,7 @@
         "tags": [
           "AvailabilitySlots"
         ],
-        "operationId": "AvailabilitySlots_Add",
+        "operationId": "AvailabilitySlots_AddAvailabilitySlots",
         "requestBody": {
           "x-name": "availabilitySlot",
           "content": {

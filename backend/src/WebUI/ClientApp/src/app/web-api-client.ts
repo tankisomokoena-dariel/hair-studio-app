@@ -17,7 +17,7 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 export interface IAvailabilitySlotsClient {
     get(): Observable<AvailabilitySlotDTO[]>;
-    add(availabilitySlot: AvailabilitySlot): Observable<FileResponse>;
+    addAvailabilitySlots(availabilitySlot: AvailabilitySlot): Observable<FileResponse>;
     updateAvailabilitySlot(availabilitySlot: AvailabilitySlotDTO): Observable<FileResponse>;
 }
 
@@ -89,7 +89,7 @@ export class AvailabilitySlotsClient implements IAvailabilitySlotsClient {
         return _observableOf(null as any);
     }
 
-    add(availabilitySlot: AvailabilitySlot): Observable<FileResponse> {
+    addAvailabilitySlots(availabilitySlot: AvailabilitySlot): Observable<FileResponse> {
         let url_ = this.baseUrl + "/api/AvailabilitySlots";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -106,11 +106,11 @@ export class AvailabilitySlotsClient implements IAvailabilitySlotsClient {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processAdd(response_);
+            return this.processAddAvailabilitySlots(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processAdd(response_ as any);
+                    return this.processAddAvailabilitySlots(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<FileResponse>;
                 }
@@ -119,7 +119,7 @@ export class AvailabilitySlotsClient implements IAvailabilitySlotsClient {
         }));
     }
 
-    protected processAdd(response: HttpResponseBase): Observable<FileResponse> {
+    protected processAddAvailabilitySlots(response: HttpResponseBase): Observable<FileResponse> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
