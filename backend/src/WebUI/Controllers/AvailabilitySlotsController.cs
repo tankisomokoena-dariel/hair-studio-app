@@ -1,6 +1,7 @@
 ﻿using backend.Application.AvailabilitySlots.Commands.CreateAvailabilitySlot;
 using backend.Application.AvailabilitySlots.Commands.UpdateAvailabilitySlot;
 using backend.Application.AvailabilitySlots.Dto;
+using backend.Application.AvailabilitySlots.Interfaces;
 using backend.Application.AvailabilitySlots.Queries;
 using backend.Domain.Entities;
 using backend.WebUI.Controllers;
@@ -14,11 +15,17 @@ namespace WebUI.Controllers;
 [ApiController]
 public class AvailabilitySlotsController : ApiControllerBase
 {
+    private readonly IAvailabilitySlotService _availabilitySlotService;
+
+    public AvailabilitySlotsController(IAvailabilitySlotService availabilitySlotService)
+    {
+        _availabilitySlotService = availabilitySlotService;
+    }
     // GET: api/<AvailabilitySlotsController>
     [HttpGet]
     public async Task<List<AvailabilitySlotDTO>> Get()
     {
-        var availabilitySlots = await Mediator.Send(new GetAvailabilitySlotsQuery());
+        var availabilitySlots = await _availabilitySlotService.GetAvailabilitySlots(new GetAvailabilitySlotsQuery());
         return availabilitySlots;
     }
 
