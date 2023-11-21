@@ -29,6 +29,8 @@ else
     app.UseHsts();
 }
 
+app.UseCors("_myAllowSpecificOrigins");
+
 app.UseHealthChecks("/health");
 app.UseHttpsRedirection();
 app.UseStaticFiles();

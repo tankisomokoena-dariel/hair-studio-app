@@ -1,4 +1,7 @@
-﻿using backend.Application.Common.Interfaces;
+﻿using backend.Application.AvailabilitySlots.Interfaces;
+using backend.Application.AvailabilitySlots.Services;
+using backend.Application.Bookings.Service;
+using backend.Application.Common.Interfaces;
 using backend.Infrastructure.Persistence;
 using backend.WebUI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +19,10 @@ public static class ConfigureServices
 
         services.AddScoped<ICurrentUserService, CurrentUserService>();
 
+        services.AddScoped<IBookingService, BookingService>();
+
+        services.AddScoped<IAvailabilitySlotService, AvailabilitySlotService>();
+
         services.AddHttpContextAccessor();
 
         services.AddHealthChecks()
@@ -24,6 +31,19 @@ public static class ConfigureServices
         services.AddControllersWithViews();
 
         services.AddRazorPages();
+
+        services.AddCors(options =>
+        {
+            options.AddPolicy(name: "_myAllowSpecificOrigins",
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .SetIsOriginAllowedToAllowWildcardSubdomains()
+                    .AllowCredentials();
+                });
+        });
 
         services.AddScoped<FluentValidationSchemaProcessor>(provider =>
         {

@@ -1,5 +1,7 @@
 ﻿using backend.Application.AvailabilitySlots.Commands.CreateAvailabilitySlot;
+using backend.Application.AvailabilitySlots.Commands.UpdateAvailabilitySlot;
 using backend.Application.AvailabilitySlots.Dto;
+using backend.Application.AvailabilitySlots.Interfaces;
 using backend.Application.AvailabilitySlots.Queries;
 using backend.Domain.Entities;
 using backend.WebUI.Controllers;
@@ -13,18 +15,31 @@ namespace WebUI.Controllers;
 [ApiController]
 public class AvailabilitySlotsController : ApiControllerBase
 {
+    private readonly IAvailabilitySlotService _availabilitySlotService;
+
+    public AvailabilitySlotsController(IAvailabilitySlotService availabilitySlotService)
+    {
+        _availabilitySlotService = availabilitySlotService;
+    }
     // GET: api/<AvailabilitySlotsController>
     [HttpGet]
-    public async Task<List<AvailabilitySlotDto>> Get()
+    public async Task<IEnumerable<AvailabilitySlotDTO>> Get()
     {
-        var availabilitySlots = await Mediator.Send(new GetAvailabilitySlotsQuery());
+        var availabilitySlots = await _availabilitySlotService.GetAvailabilitySlots(new GetAvailabilitySlotsQuery());
         return availabilitySlots;
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add(AvailabilitySlot availabilitySlot)
+    public async Task<IActionResult> AddAvailabilitySlots(AvailabilitySlot availabilitySlot)
     {
-        var result = await Mediator.Send(new CreateAvailabilitySlotCommand(availabilitySlot));
+        var result = await _availabilitySlotService.AddAvailabilitySlots(availabilitySlot);
+        return result.Succeeded ? Ok() : BadRequest(result.Errors);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateAvailabilitySlot(AvailabilitySlotDTO availabilitySlot)
+    {
+        var result = await _availabilitySlotService.UpdateAvailabilitySlots(availabilitySlot);
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }
 }

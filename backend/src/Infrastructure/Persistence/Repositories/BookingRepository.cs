@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using backend.Application.Common.Interfaces.Repositories;
 using backend.Domain.Entities;
+using backend.Domain.Events;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Infrastructure.Persistence.Repositories;
@@ -22,9 +23,17 @@ public class BookingRepository : IBookingRepository
         await _context.SaveChangesAsync();
     }
 
-    public Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        var booking = await _context.Bookings.FindAsync(id);
+
+        if (booking == null)
+        {
+            return;
+        }
+
+        _context.Bookings.Remove(booking);
+        _context.SaveChanges();
     }
 
     public async Task<List<Booking>?> GetAllAsync()
@@ -38,8 +47,24 @@ public class BookingRepository : IBookingRepository
         return await _context.Bookings.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public Task UpdateAsync(Booking item)
+    public async Task UpdateAsync(Booking item)
     {
-        throw new NotImplementedException();
+        var booking = await _context.Bookings.FindAsync(new object[] { item.Id });
+
+        if (booking == null)
+        {
+            return;
+        }
+
+        booking.ServiceId = item.ServiceId;
+        booking.Status = item.Status;
+        booking.StartTime = item.StartTime;
+        booking.EndTime = item.EndTime;
+        booking.LastModified = item.LastModified;
+        booking.LastModifiedBy = item.LastModifiedBy;
+        booking.Comments = item.Comments;
+
+        _context.SaveChanges();
+
     }
 }

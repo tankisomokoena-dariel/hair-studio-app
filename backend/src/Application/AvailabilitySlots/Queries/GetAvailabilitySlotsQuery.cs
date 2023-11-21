@@ -8,8 +8,5 @@ using backend.Domain.Entities;
 using MediatR;
 
 namespace backend.Application.AvailabilitySlots.Queries;
-//public class GetAvailabilitySlotsQuery : IRequest<List<AvailabilitySlotDto>>
-//{
-//}
 
-public record GetAvailabilitySlotsQuery : IRequest<List<AvailabilitySlotDto>>;
+public record GetAvailabilitySlotsQuery : IRequest<IEnumerable<AvailabilitySlotDTO>>;

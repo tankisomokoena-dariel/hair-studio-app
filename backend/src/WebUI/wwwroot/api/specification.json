@@ -20,7 +20,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AvailabilitySlotDto"
+                    "$ref": "#/components/schemas/AvailabilitySlotDTO"
                   }
                 }
               }
@@ -32,13 +32,44 @@
         "tags": [
           "AvailabilitySlots"
         ],
-        "operationId": "AvailabilitySlots_Add",
+        "operationId": "AvailabilitySlots_AddAvailabilitySlots",
         "requestBody": {
           "x-name": "availabilitySlot",
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AvailabilitySlot"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AvailabilitySlots"
+        ],
+        "operationId": "AvailabilitySlots_UpdateAvailabilitySlot",
+        "requestBody": {
+          "x-name": "availabilitySlot",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AvailabilitySlotDTO"
               }
             }
           },
@@ -65,7 +96,7 @@
         "tags": [
           "Bookings"
         ],
-        "operationId": "Bookings_Get",
+        "operationId": "Bookings_GetAllBookings",
         "responses": {
           "200": {
             "description": "",
@@ -74,7 +105,12 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/BookingDTO"
+                    "nullable": true,
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/BookingDTO"
+                      }
+                    ]
                   }
                 }
               }
@@ -86,19 +122,111 @@
         "tags": [
           "Bookings"
         ],
-        "operationId": "Bookings_Add",
+        "operationId": "Bookings_AddBooking",
         "requestBody": {
           "x-name": "booking",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Booking"
+                "$ref": "#/components/schemas/BookingDTO"
               }
             }
           },
           "required": true,
           "x-position": 1
         },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Bookings"
+        ],
+        "operationId": "Bookings_UpdateBooking",
+        "requestBody": {
+          "x-name": "booking",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookingDTO"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Bookings/id": {
+      "get": {
+        "tags": [
+          "Bookings"
+        ],
+        "operationId": "Bookings_GetBooking",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Bookings"
+        ],
+        "operationId": "Bookings_DeleteBooking",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -588,7 +716,7 @@
   },
   "components": {
     "schemas": {
-      "AvailabilitySlotDto": {
+      "AvailabilitySlotDTO": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -716,47 +844,27 @@
             "type": "string",
             "format": "date-time"
           },
+          "status": {
+            "$ref": "#/components/schemas/BookingStatus"
+          },
           "comments": {
             "type": "string",
             "nullable": true
           }
         }
       },
-      "Booking": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/BaseAuditableEntity"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "userId": {
-                "type": "integer",
-                "format": "int32"
-              },
-              "serviceId": {
-                "type": "integer",
-                "format": "int32"
-              },
-              "date": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "startTime": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "endTime": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "comments": {
-                "type": "string",
-                "nullable": true
-              }
-            }
-          }
+      "BookingStatus": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Pending",
+          "Approved",
+          "Complete"
+        ],
+        "enum": [
+          0,
+          1,
+          2
         ]
       },
       "PaginatedListOfTodoItemBriefDto": {
