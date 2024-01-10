@@ -25,6 +25,11 @@
 
   <ItemGroup>
     <Folder Include="AvailabilitySlots\EventHandlers\" />
+    <Folder Include="Bookings\Commands\" />
+    <Folder Include="Bookings\DTOs\" />
+    <Folder Include="Bookings\EventHandlers\" />
+    <Folder Include="Bookings\Services\" />
+    <Folder Include="Bookings\Queries\" />
   </ItemGroup>
 
 </Project>
