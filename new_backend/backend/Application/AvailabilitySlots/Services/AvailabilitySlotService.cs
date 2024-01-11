@@ -4,13 +4,7 @@ using Application.AvailabilitySlots.DTO;
 using Application.AvailabilitySlots.Queries;
 using backend.Application.AvailabilitySlots.Commands.CreateAvailabilitySlot;
 using backend.Application.Common.Models;
-using backend.Domain.Entities;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.AvailabilitySlots.Services
 {

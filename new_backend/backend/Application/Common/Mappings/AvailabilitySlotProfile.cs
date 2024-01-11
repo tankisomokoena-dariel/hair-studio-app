@@ -5,12 +5,8 @@ using System.Runtime.CompilerServices;
 
 namespace Application.Common.Mappings
 {
-    public class AvailabilitySlotProfile : Profile
+    internal class AvailabilitySlotProfile : GenericProfile<AvailabilitySlot, AvailabilitySlotDTO>
     {
-        public AvailabilitySlotProfile()
-        {
-            CreateMap<AvailabilitySlot, AvailabilitySlotDTO>()
-                .ReverseMap();
-        }
+        
     }
 }

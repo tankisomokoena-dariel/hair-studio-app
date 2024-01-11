@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Application.Common.Services
 {
-    public interface IService<T>
+    public interface IGenericService<TDto>
     {
-        public Task<IEnumerable<T>?> GetAsync();
-        public Task<T?> GetByIdAsync(Guid id);
-        public Task<Result> AddAsync(T item);
-        public Task<Result> UpdateAsync(T item);
+        public Task<IEnumerable<TDto>?> GetAsync();
+        public Task<TDto?> GetByIdAsync(Guid id);
+        public Task<Result> AddAsync(TDto item);
+        public Task<Result> UpdateAsync(TDto item);
         public Task<Result> DeleteAsync(Guid id);
     }
 }

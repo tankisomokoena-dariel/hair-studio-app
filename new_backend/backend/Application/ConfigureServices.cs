@@ -1,4 +1,6 @@
 ﻿using Application.AvailabilitySlots.Services;
+using backend.Application.Bookings.Service;
+using Domain.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,7 @@ namespace Application
             });
 
             services.AddScoped<IAvailabilitySlotService, AvailabilitySlotService>();
+            services.AddScoped<IBookingsService, BookingsService>();
 
             return services;
         }
