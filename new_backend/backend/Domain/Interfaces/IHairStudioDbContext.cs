@@ -5,6 +5,7 @@ namespace Domain.Interfaces
 {
     public interface IHairStudioDbContext
     {
-        DbSet<AvailabilitySlot> AvailabilitySlots { get; }
+        public DbSet<AvailabilitySlot> AvailabilitySlots { get; }
+        public DbSet<Booking> Bookings { get; }
     }
 }
