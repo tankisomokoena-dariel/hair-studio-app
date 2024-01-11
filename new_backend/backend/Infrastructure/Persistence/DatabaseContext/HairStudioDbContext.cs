@@ -34,7 +34,8 @@ namespace Infrastructure.Persistence.DatabaseContext
             optionsBuilder.AddInterceptors(_auditableEntitySaveChanges);
         }
 
-        public DbSet<AvailabilitySlot> AvailabilitySlots => throw new NotImplementedException();
+        public DbSet<AvailabilitySlot> AvailabilitySlots => Set<AvailabilitySlot>();
+        public DbSet<Booking> Bookings => Set<Booking>();
 
     }
 }

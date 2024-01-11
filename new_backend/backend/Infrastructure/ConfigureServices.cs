@@ -24,6 +24,7 @@ namespace Infrastructure
             services.AddScoped<IHairStudioDbContext>(provider => provider.GetRequiredService<HairStudioDbContext>());
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IAvailabilitySlotRepository, AvailabilitySlotRepository>();
+            services.AddScoped<IBookingsRepository, BookingsRepository>();
 
             return services;
         }
