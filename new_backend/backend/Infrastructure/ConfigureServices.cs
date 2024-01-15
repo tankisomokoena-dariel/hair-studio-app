@@ -1,11 +1,11 @@
 ﻿using backend.Application.Common.Interfaces.Repositories;
-using backend.Infrastructure.Persistence.Interceptors;
 using Domain.Interfaces;
-using Infrastructure.Persistence.DatabaseContext;
-using Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Persistence.DatabaseContext;
+using Persistence.Interceptors;
+using Persistence.Repositories;
 
 namespace Infrastructure
 {

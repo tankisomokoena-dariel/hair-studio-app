@@ -1,14 +1,14 @@
 ﻿using backend.Application.Common.Interfaces.Repositories;
 using Domain.Common;
-using Infrastructure.Persistence.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
+using Persistence.DatabaseContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Persistence.Repositories
+namespace Persistence.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {

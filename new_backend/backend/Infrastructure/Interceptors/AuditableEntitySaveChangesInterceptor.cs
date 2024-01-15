@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace backend.Infrastructure.Persistence.Interceptors;
+namespace Persistence.Interceptors;
 
 public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
 {
@@ -42,7 +42,7 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
             {
                 //entry.Entity.CreatedBy = _currentUserService.UserId;
                 entry.Entity.Created = DateTime.Now;
-            } 
+            }
 
             if (entry.State == EntityState.Added || entry.State == EntityState.Modified || entry.HasChangedOwnedEntities())
             {
@@ -56,8 +56,8 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
 public static class Extensions
 {
     public static bool HasChangedOwnedEntities(this EntityEntry entry) =>
-        entry.References.Any(r => 
-            r.TargetEntry != null && 
-            r.TargetEntry.Metadata.IsOwned() && 
+        entry.References.Any(r =>
+            r.TargetEntry != null &&
+            r.TargetEntry.Metadata.IsOwned() &&
             (r.TargetEntry.State == EntityState.Added || r.TargetEntry.State == EntityState.Modified));
 }

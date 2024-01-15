@@ -1,8 +1,8 @@
 ﻿using backend.Domain.Entities;
-using backend.Infrastructure.Persistence.Interceptors;
 using Domain.Common;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Interceptors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Persistence.DatabaseContext
+namespace Persistence.DatabaseContext
 {
     public class HairStudioDbContext : DbContext, IHairStudioDbContext
     {
