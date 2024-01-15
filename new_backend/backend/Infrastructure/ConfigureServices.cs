@@ -16,7 +16,7 @@ namespace Infrastructure
             services.AddScoped<AuditableEntitySaveChangesInterceptor>();
             services.AddDbContext<HairStudioDbContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("LocalConnection"),
+                options.UseSqlServer(configuration.GetConnectionString("LocalDbConnectionString"),
                     builder => builder.MigrationsAssembly(typeof(HairStudioDbContext).Assembly.FullName));
             });
 
