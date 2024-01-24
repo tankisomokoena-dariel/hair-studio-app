@@ -1,13 +1,13 @@
 ﻿using Application.AvailabilitySlots.DTO;
 using Application.AvailabilitySlots.Services;
-using backend.Domain.Entities;
-using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AvailabilitySlotsController : ControllerBase
