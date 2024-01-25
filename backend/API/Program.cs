@@ -1,5 +1,6 @@
 
 using Application;
+using Auth;
 using Infrastructure;
 
 namespace API
@@ -14,6 +15,7 @@ namespace API
             builder.Services.AddApplicationServices();
             builder.Services.AddAPIServices();
             builder.Services.AddInfrastructureServices(builder.Configuration);
+            builder.Services.AddAuthenticationServices(builder.Configuration);
 
 
             var app = builder.Build();
@@ -27,6 +29,7 @@ namespace API
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

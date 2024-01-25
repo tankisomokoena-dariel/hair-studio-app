@@ -36,6 +36,7 @@ namespace Auth
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(o =>
             {
                 o.TokenValidationParameters = new TokenValidationParameters
@@ -52,6 +53,7 @@ namespace Auth
                 };
             });
 
+            services.AddAuthorization();
 
             return services;
         }
