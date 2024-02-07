@@ -1,12 +1,15 @@
 ﻿
+using API.Services;
+using Application.Common.Services;
+
 namespace API
 {
     public static class ConfigureServices
     {
         public static IServiceCollection AddAPIServices(this IServiceCollection services)
         {
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 

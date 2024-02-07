@@ -1,4 +1,6 @@
-﻿using Domain.Common;
+﻿using Application.Common.Services;
+using Application.Common.Services.Auth;
+using Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -7,16 +9,12 @@ namespace Persistence.Interceptors;
 
 public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
 {
-    //private readonly ICurrentUserService _currentUserService;
-    //private readonly IDateTime _dateTime;
+    private readonly ICurrentUserService _currentUserService;
 
-    //public AuditableEntitySaveChangesInterceptor(
-    //    ICurrentUserService currentUserService,
-    //    IDateTime dateTime)
-    //{
-    //    _currentUserService = currentUserService;
-    //    _dateTime = dateTime;
-    //}
+    public AuditableEntitySaveChangesInterceptor(ICurrentUserService userService)
+    {
+        _currentUserService = userService;
+    }
 
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
@@ -40,13 +38,13 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
         {
             if (entry.State == EntityState.Added)
             {
-                //entry.Entity.CreatedBy = _currentUserService.UserId;
+                entry.Entity.CreatedBy = _currentUserService.UserId;
                 entry.Entity.Created = DateTime.Now;
             }
 
             if (entry.State == EntityState.Added || entry.State == EntityState.Modified || entry.HasChangedOwnedEntities())
             {
-                //entry.Entity.LastModifiedBy = _currentUserService.UserId;
+                entry.Entity.LastModifiedBy = _currentUserService.UserId;
                 entry.Entity.LastModified = DateTime.Now;
             }
         }

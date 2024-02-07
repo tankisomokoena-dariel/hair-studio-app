@@ -9,10 +9,12 @@ public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand,
 {
     private readonly IBookingsRepository _bookingRepository;
     private readonly IMapper _mapper;
-    public CreateBookingCommandHandler(IBookingsRepository bookingRepository, IMapper mapper)
+    private readonly IMediator _mediator;
+    public CreateBookingCommandHandler(IBookingsRepository bookingRepository, IMapper mapper, IMediator mediator)
     {
         _bookingRepository = bookingRepository;
         _mapper = mapper;
+        _mediator = mediator;
     }
     public async Task<Result> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
     {
@@ -20,7 +22,7 @@ public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand,
         {
             var booking = _mapper.Map<Booking>(request.Booking);
             await _bookingRepository.AddAsync(booking);
-            booking.AddDomainEvent(new BookingCreatedEvent(booking));
+            await _mediator.Publish(new BookingCreatedEvent(booking));
             return Result.Success();
         }
         catch (Exception ex)

@@ -12,7 +12,7 @@ namespace Application
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(config =>
             {
-                config.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
+                config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             });
 
             services.AddScoped<IAvailabilitySlotService, AvailabilitySlotService>();

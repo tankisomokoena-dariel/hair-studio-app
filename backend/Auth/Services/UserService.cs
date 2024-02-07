@@ -19,6 +19,12 @@ namespace Auth.Services
         public async Task<User> GetUserAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
+
+            if(user == null)
+            {
+                throw new Exception("User does not exist");
+            }
+
             return new User
             { 
                 Id = user.Id,
