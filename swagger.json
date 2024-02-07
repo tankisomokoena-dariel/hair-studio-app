@@ -32,13 +32,44 @@
         "tags": [
           "AvailabilitySlots"
         ],
-        "operationId": "AvailabilitySlots_Add",
+        "operationId": "AvailabilitySlots_AddAvailabilitySlots",
         "requestBody": {
           "x-name": "availabilitySlot",
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AvailabilitySlot"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AvailabilitySlots"
+        ],
+        "operationId": "AvailabilitySlots_UpdateAvailabilitySlot",
+        "requestBody": {
+          "x-name": "availabilitySlot",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AvailabilitySlotDTO"
               }
             }
           },
@@ -65,7 +96,7 @@
         "tags": [
           "Bookings"
         ],
-        "operationId": "Bookings_Get",
+        "operationId": "Bookings_GetAllBookings",
         "responses": {
           "200": {
             "description": "",
@@ -74,7 +105,12 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/BookingDTO"
+                    "nullable": true,
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/BookingDTO"
+                      }
+                    ]
                   }
                 }
               }
@@ -86,13 +122,13 @@
         "tags": [
           "Bookings"
         ],
-        "operationId": "Bookings_Add",
+        "operationId": "Bookings_AddBooking",
         "requestBody": {
           "x-name": "booking",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Booking"
+                "$ref": "#/components/schemas/BookingDTO"
               }
             }
           },
@@ -119,6 +155,98 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Bookings"
+        ],
+        "operationId": "Bookings_UpdateBooking",
+        "requestBody": {
+          "x-name": "booking",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookingDTO"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Bookings/id": {
+      "get": {
+        "tags": [
+          "Bookings"
+        ],
+        "operationId": "Bookings_GetBooking",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Bookings"
+        ],
+        "operationId": "Bookings_DeleteBooking",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -749,6 +877,7 @@
           0,
           1,
           2
+<<<<<<<< HEAD:swagger.json
         ]
       },
       "ProblemDetails": {
@@ -818,6 +947,8 @@
               }
             }
           }
+========
+>>>>>>>> 82d6d52f45dc53eec7fdfdd8a58027ede6d9ff31:backend/src/WebUI/wwwroot/api/specification.json
         ]
       },
       "PaginatedListOfTodoItemBriefDto": {
