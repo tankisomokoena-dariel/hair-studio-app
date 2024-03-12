@@ -2,10 +2,12 @@
 using Application.Common.Services.Auth;
 using Auth.Models;
 using Domain.Enums;
+using Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
 
@@ -42,21 +44,21 @@ namespace Auth.Services
 
             if (user == null)
             {
-                throw new Exception($"User not found.");
+                throw new UserNotFoundException("User not found.");
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
             if (result.Succeeded == false)
             {
-                throw new Exception("Invalid username or password.");
+                throw new AuthenticationException("Invalid username or password.");
             }
 
             JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
 
             var response = new AuthResponse
             {
-                Id = user.Id,
+                //Id = user.Id,
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
                 Email = user.Email,
                 UserName = user.UserName,

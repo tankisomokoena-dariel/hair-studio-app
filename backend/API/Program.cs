@@ -27,6 +27,8 @@ namespace API
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("_myAllowSpecificOrigins");
+
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
