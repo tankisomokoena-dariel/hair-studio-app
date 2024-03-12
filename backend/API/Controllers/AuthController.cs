@@ -8,7 +8,7 @@ using System.Security.Authentication;
 
 namespace API.Controllers
 {
-    //[ApiExplorerSettings(IgnoreApi = true)]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
