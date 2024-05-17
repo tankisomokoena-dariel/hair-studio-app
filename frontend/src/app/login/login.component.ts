@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from '../auth/services/auth.service'
+import { AuthResponse } from '../auth/models/authResponse';
 
 @Component({
   selector: 'app-login',
@@ -10,25 +12,30 @@ import { CookieService } from 'ngx-cookie-service';
 export class LoginComponent {
     cellNo: string = '';
     password: string = '';
+    email: string = '';
     incorrectPassword: boolean = false;
-    
 
-    private user = {'cellNo': '0712345678',
-                    'password': 'password'};
-
-    constructor(private router: Router, private cookieService: CookieService){}
+    constructor(private router: Router, private cookieService: CookieService, private authService: AuthService){}
 
     Login(){
-      if(this.cellNo === this.user.cellNo && this.password === this.user.password){
-        this.cookieService.set('sessionId', 'XXXXXXXXXXXXXXXX',(new Date()).setMinutes(10));
-        this.router.navigate(['/appointments']);
-      }else{
-        this.incorrectPassword = true;
-
-        // Remove the shake effect after the animation completes
-        setTimeout(() => {
-        this.incorrectPassword = false;
-      }, 2000);
-      }
+        this.authService.loginPost(this.cellNo, this.email, this.password).subscribe(resp => {
+        this.cookieService.set('sessionId', resp.token ?? '' ,(new Date()).setMinutes(10));
+        this.cookieService.set('username', resp.userName ?? '');
+        this.cookieService.set('fullname', resp.fullName ?? '');
+        this.cookieService.set('contactNo', resp.contactNo ?? '');
+      },
+      (error) => {
+          this.incorrectPassword = true;
+       },
+      () => {
+        if(this.incorrectPassword){
+          // Remove the shake effect after the animation completes
+            setTimeout(() => {
+              this.incorrectPassword = false;
+              }, 2000);
+        } else {
+          this.router.navigate(['/appointments']);
+        }
+      })
     }
 }

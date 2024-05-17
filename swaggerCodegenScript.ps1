@@ -6,7 +6,7 @@ if(!(Test-Path ./SwaggerGeneratedFiles)){
 	New-Item -Path "./SwaggerGeneratedFiles" -ItemType Directory
 }
 
-Invoke-WebRequest https://localhost:44447/api/specification.json -OutFile ./swagger.json
+Invoke-WebRequest https://localhost:7056/swagger/v1/swagger.json -OutFile ./swagger.json
 
 
 Remove-Item ./SwaggerGeneratedFiles/* -Recurse -Force

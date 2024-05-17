@@ -3,25 +3,21 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 
+import { AuthService } from './api/auth.service';
 import { AvailabilitySlotsService } from './api/availabilitySlots.service';
 import { BookingsService } from './api/bookings.service';
-import { TodoItemsService } from './api/todoItems.service';
-import { TodoListsService } from './api/todoLists.service';
-import { WeatherForecastService } from './api/weatherForecast.service';
 
 @NgModule({
   imports:      [],
   declarations: [],
   exports:      [],
   providers: [
+    AuthService,
     AvailabilitySlotsService,
-    BookingsService,
-    TodoItemsService,
-    TodoListsService,
-    WeatherForecastService ]
+    BookingsService ]
 })
 export class ApiModule {
-    public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders {
+    public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders<ApiModule> {
         return {
             ngModule: ApiModule,
             providers: [ { provide: Configuration, useFactory: configurationFactory } ]

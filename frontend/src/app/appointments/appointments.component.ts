@@ -6,6 +6,9 @@ import {
 import {HomeService} from '../services/home.service'
 import { CookieService } from 'ngx-cookie-service';
 import { Route, Router } from '@angular/router';
+import { BookingsService } from '../api/api/bookings.service';
+import { BookingDTO } from '../api/model/bookingDTO';
+import { BookingStatus } from '../api/model/bookingStatus';
 
 @Component({
   selector: 'app-appointments',
@@ -23,7 +26,7 @@ export class AppointmentsComponent implements AfterViewInit {
   private selection: string = "";
   private form: any;
 
-  constructor(private homeService: HomeService, private cookieService: CookieService, private router: Router){}
+  constructor(private homeService: HomeService, private cookieService: CookieService, private router: Router, private bookings: BookingsService){}
 
   ngOnInit(){
     this.requestedService = this.homeService.getServiceById(parseInt(this.cookieService.get('svcId')));
@@ -43,7 +46,7 @@ export class AppointmentsComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.calendar.events = this.events;
 
-    if(this.cookieService.get('sessionId') === ""){
+    if(this.cookieService.get('sessionId') === ''){
       this.router.navigate(['/login']);
     }
   }
@@ -66,8 +69,27 @@ export class AppointmentsComponent implements AfterViewInit {
         resource: args.resource,
         text: this.requestedService?.svcName === undefined ? "Booked!" : this.requestedService?.svcName
       };
-      // displays the event on calendar
-      calendar.events.add(data);
+
+      const booking : BookingDTO = {
+        id : '5E1297D1-990D-4DC0-A870-014E8B7CFA46',
+        userId: 0,
+        serviceId: 0,
+        date: data.start.toDate(),
+        startTime: data.start.toDate(),
+        endTime: data.end.toDate(),
+        status: 0,
+        comments: 'Mock data added via website'
+      }
+
+      this.bookings.apiBookingsPost(booking).subscribe(resp => {
+        console.log('Booking created!')
+        // displays the event on calendar
+        calendar.events.add(data);
+      },
+    error => {
+      console.log('Booking failed!')
+    })
+
     },
 
     onEventClick: args => {DayPilot.Modal.form(this.form)},

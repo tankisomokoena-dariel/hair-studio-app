@@ -1,11 +1,7 @@
+export * from './auth.service';
+import { AuthService } from './auth.service';
 export * from './availabilitySlots.service';
 import { AvailabilitySlotsService } from './availabilitySlots.service';
 export * from './bookings.service';
 import { BookingsService } from './bookings.service';
-export * from './todoItems.service';
-import { TodoItemsService } from './todoItems.service';
-export * from './todoLists.service';
-import { TodoListsService } from './todoLists.service';
-export * from './weatherForecast.service';
-import { WeatherForecastService } from './weatherForecast.service';
-export const APIS = [AvailabilitySlotsService, BookingsService, TodoItemsService, TodoListsService, WeatherForecastService];
+export const APIS = [AuthService, AvailabilitySlotsService, BookingsService];
