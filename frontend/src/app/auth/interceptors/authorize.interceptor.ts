@@ -15,14 +15,14 @@ export class AuthorizeInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.cookieService.get('sessionId');
-    console.log('token : ' + token);
     if(token){
-      request.clone({
+        request = request.clone({
         setHeaders : {
-          Authorization : token
+          Authorization : `Bearer ${token}`
         }
       });
     }
     return next.handle(request);
+   
   }
 }
