@@ -14,20 +14,25 @@ export class LoginComponent {
     password: string = '';
     email: string = '';
     incorrectPassword: boolean = false;
+    showLoader: boolean = false;
 
     constructor(private router: Router, private cookieService: CookieService, private authService: AuthService){}
 
     Login(){
+        this.showLoader = true;
+
         this.authService.loginPost(this.cellNo, this.email, this.password).subscribe(resp => {
         this.cookieService.set('sessionId', resp.token ?? '' ,(new Date()).setMinutes(10));
         this.cookieService.set('username', resp.userName ?? '');
         this.cookieService.set('fullname', resp.fullName ?? '');
         this.cookieService.set('contactNo', resp.contactNo ?? '');
-      },
-      (error) => {
+        },
+        (error) => {
+          this.showLoader = false;
           this.incorrectPassword = true;
-       },
-      () => {
+        },
+        () => {
+        this.showLoader = false;
         if(this.incorrectPassword){
           // Remove the shake effect after the animation completes
             setTimeout(() => {

@@ -9,6 +9,7 @@ import { Route, Router } from '@angular/router';
 import { BookingsService } from '../api/api/bookings.service';
 import { BookingDTO } from '../api/model/bookingDTO';
 import { BookingStatus } from '../api/model/bookingStatus';
+import { AvailabilitySlotsService } from '../api/api/availabilitySlots.service'
 
 @Component({
   selector: 'app-appointments',
@@ -25,8 +26,15 @@ export class AppointmentsComponent implements AfterViewInit {
   private svcETA: number = 0;
   private selection: string = "";
   private form: any;
+  showLoader: boolean = false;
 
-  constructor(private homeService: HomeService, private cookieService: CookieService, private router: Router, private bookings: BookingsService){}
+  constructor(
+    private homeService: HomeService, 
+    private cookieService: CookieService, 
+    private router: Router, 
+    private bookings: BookingsService,
+    private availability: AvailabilitySlotsService
+  ){}
 
   ngOnInit(){
     this.requestedService = this.homeService.getServiceById(parseInt(this.cookieService.get('svcId')));
@@ -44,11 +52,38 @@ export class AppointmentsComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.calendar.events = this.events;
-
+    this
     if(this.cookieService.get('sessionId') === ''){
       this.router.navigate(['/login']);
     }
+    var bookings: DayPilot.EventData[] = [];
+    //this.calendar.events = this.events;
+    this.showLoader = true;
+    this.availability.apiAvailabilitySlotsGet().subscribe(
+      resp => {
+        resp.forEach(function(slot){
+        var booking: DayPilot.EventData = {
+          id: DayPilot.guid(),
+          start: slot.startTime?.toString() ?? '',
+          end: slot.endTime?.toString() ?? '',
+          text:  'Booking'
+        }
+        bookings.push(booking); 
+        });
+      },
+      error => {
+        this.showLoader = false;
+        if(error.status == 401){
+          this.router.navigate(['/login']);
+        }
+      },
+      () => {
+        this.showLoader = false;
+      }
+      
+    );
+
+    this.calendar.events = bookings;
   }
 
   config: DayPilot.CalendarConfig = {
@@ -71,7 +106,7 @@ export class AppointmentsComponent implements AfterViewInit {
       };
 
       const booking : BookingDTO = {
-        id : '5E1297D1-990D-4DC0-A870-014E8B7CFA46',
+        id : DayPilot.guid(),
         userId: 0,
         serviceId: 0,
         date: data.start.toDate(),
@@ -80,6 +115,7 @@ export class AppointmentsComponent implements AfterViewInit {
         status: 0,
         comments: 'Mock data added via website'
       }
+      this.showLoader = true;
 
       this.bookings.apiBookingsPost(booking).subscribe(resp => {
         console.log('Booking created!')
@@ -87,8 +123,16 @@ export class AppointmentsComponent implements AfterViewInit {
         calendar.events.add(data);
       },
     error => {
+      this.showLoader = false;
+      if(error.status = 401){
+        this.router.navigate(['/login']);
+      }
       console.log('Booking failed!')
-    })
+    },
+    () => {
+      this.showLoader = false;
+    }
+  )
 
     },
 

@@ -26,7 +26,7 @@ import { Configuration }                                     from '../configurat
 @Injectable()
 export class AvailabilitySlotsService {
 
-    protected basePath = '/';
+    protected basePath = 'https://localhost:7056';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
 

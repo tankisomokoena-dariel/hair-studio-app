@@ -8,9 +8,10 @@
           <input type="password" [(ngModel)]="password" name="password" ngModel required placeholder="Password">
       </div>
       <p *ngIf="incorrectPassword" style="color: red;">Incorrect password!</p>
-      <button [class.shake]="incorrectPassword">Submit</button>
-
+      <button *ngIf="!showLoader"  [class.shake]="incorrectPassword">Submit</button>
+      <div *ngIf="showLoader" class="loader"></div>
   </form>
+
   <div class="form-footer">
       <p>No account? <a routerLink="/register" routerLinkActive="active">Sign up</a></p> 
   </div>

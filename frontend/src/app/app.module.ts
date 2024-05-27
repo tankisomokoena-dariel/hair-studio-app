@@ -14,6 +14,7 @@ import { AuthService } from './auth/services/auth.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BookingsService } from './api/api/bookings.service';
 import { AuthorizeInterceptor } from './auth/interceptors/authorize.interceptor';
+import { AvailabilitySlotsService } from './api/api/availabilitySlots.service';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { AuthorizeInterceptor } from './auth/interceptors/authorize.interceptor'
   providers: [
     AuthService, 
     BookingsService,
+    AvailabilitySlotsService,
     {
       provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true
     }

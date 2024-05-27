@@ -1,1 +1,13 @@
-<daypilot-calendar [config]="config" #calendar></daypilot-calendar>
+<div class="calendar">
+
+    <daypilot-calendar [config]="config" #calendar></daypilot-calendar>
+
+    <div class="loader-container">
+        <div *ngIf="showLoader" class="loader"></div>
+    </div>
+    
+    
+</div>
+
+
+
