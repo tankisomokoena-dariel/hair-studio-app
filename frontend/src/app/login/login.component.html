@@ -4,7 +4,7 @@
           <span>Login</span>
       </div>
       <div class="inputs">
-          <input type="text" [(ngModel)]="cellNo" name="cellNo" ngModel required="" placeholder="Cell Number">
+          <input type="text" [(ngModel)]="userId" name="userId" ngModel required="" placeholder="Email / Cell No">
           <input type="password" [(ngModel)]="password" name="password" ngModel required placeholder="Password">
       </div>
       <p *ngIf="incorrectPassword" style="color: red;">Incorrect password!</p>

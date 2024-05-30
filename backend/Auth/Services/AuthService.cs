@@ -49,7 +49,7 @@ namespace Auth.Services
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
-            if (result.Succeeded == false)
+            if (!result.Succeeded)
             {
                 throw new AuthenticationException("Invalid username or password.");
             }
